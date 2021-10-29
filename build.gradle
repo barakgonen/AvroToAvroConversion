@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+
+    allprojects {
+        repositories {
+            mavenLocal()
+        }
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('org.bg.schemas:library:1.0.2')
+    // https://mvnrepository.com/artifact/com.googlecode.jmapper-framework/jmapper-core
+    implementation group: 'com.googlecode.jmapper-framework', name: 'jmapper-core', version: '1.6.1.CR2'
+
+    implementation "org.apache.avro:avro:1.10.1"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}

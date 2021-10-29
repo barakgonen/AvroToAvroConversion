@@ -1,0 +1,16 @@
+<jmapper>
+    <class name="org.mashov.bla.schema.data.entity.AgRecord">
+        <attribute name="firstT">
+            <value name="first"/>
+        </attribute>
+        <attribute name="secondD">
+            <value name="second"/>
+        </attribute>
+        <attribute name="thirdT">
+            <value name="third"/>
+        </attribute>
+        <attribute name="forthH">
+            <value name="forth"/>
+        </attribute>
+    </class>
+</jmapper>

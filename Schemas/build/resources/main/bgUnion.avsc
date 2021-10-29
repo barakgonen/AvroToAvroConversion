@@ -1,0 +1,26 @@
+{
+  "type": "record",
+  "name": "BgUnion",
+  "namespace": "org.mashov.bla.schema.data.entity",
+  "doc": "blablablabla",
+  "fields": [
+    {
+      "name": "first",
+      "type": [
+                "null",
+                "org.mashov.bla.schema.data.entity.BgRecord"
+      ],
+      "doc": "bbbbbbb",
+      "default": null
+    },
+    {
+      "name": "second",
+      "type": [
+                "null",
+                "org.mashov.avro.services.bla.samples.structures.InitializeParametersDt"
+      ],
+      "doc": "bbbbbbb",
+      "default": null
+    }
+  ]
+}

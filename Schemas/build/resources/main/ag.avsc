@@ -1,0 +1,32 @@
+{
+  "type": "record",
+  "name": "AgRecord",
+  "namespace": "org.mashov.bla.schema.data.entity",
+  "doc": "Ag is the same as Bg but with some more fields, not nullable and different names",
+  "fields": [
+    {
+      "name": "firstT",
+      "type": "string",
+      "doc": "bbbbbbb",
+      "default": "EMPTY"
+    },
+    {
+      "name": "secondD",
+      "type": "string",
+      "doc": "bbbbbbb",
+      "default": ""
+    },
+    {
+      "name": "thirdT",
+      "type": "string",
+      "doc": "bbbbbbb",
+      "default": "t"
+    },
+    {
+      "name": "forthH",
+      "type": "string",
+      "doc": "bbbbbbb",
+      "default": "defaultEmpty"
+    }
+  ]
+}
