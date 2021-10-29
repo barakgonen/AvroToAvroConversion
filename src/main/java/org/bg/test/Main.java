@@ -1,28 +1,68 @@
 package org.bg.test;
 
 import com.googlecode.jmapper.JMapper;
-import com.googlecode.jmapper.api.JMapperAPI;
-import org.bg.test.jmapper.BgToAgConverter;
+import org.bg.test.mapstruct.MapStructConverter;
+import org.bg.test.mapstruct.MapStructConverterImpl;
+import org.mashov.avro.services.bla.samples.structures.InitializeParametersDt;
 import org.mashov.bla.schema.data.entity.AgRecord;
 import org.mashov.bla.schema.data.entity.BgRecord;
+import org.mashov.bla.schema.data.entity.BgUnion;
 
-import static com.googlecode.jmapper.api.JMapperAPI.attribute;
-import static com.googlecode.jmapper.api.JMapperAPI.mappedClass;
+import java.util.Random;
 
 public class Main {
+    public static final MapStructConverter converter = new MapStructConverterImpl();
+    public static final int leftLimit = 97; // letter 'a'
+    public static final int rightLimit = 122; // letter 'z'
+    public static final int targetStringLength = 10;
+    public static final Random random = new Random();
+    public static String generateStringInGivenLength(int length) {
+        return random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
+
+    public static int generateInt() {
+        return (int) ((Math.random() * (10000 - 0)) + 0);
+    }
     public static void main(String[] args) {
-        BgRecord bg = BgRecord.newBuilder()
-                        .setFirst("FIRST")
-                        .setSecond("SECOND")
-                        .setThird("THIRD")
-                        .setForth("FORTH")
-                        .build();
+        //        JMapper<AgRecord, BgRecord> userMapper = new JMapper<>
+//                (AgRecord.class, BgRecord.class,"user_jmapper.xml");
+//
+//        AgRecord result = userMapper.getDestination(bg);
+        for (int i = 0; i < 1000000; i++) {
+            BgRecord bg = BgRecord.newBuilder()
+                    .setFirst(generateStringInGivenLength(7))
+                    .setSecond(generateStringInGivenLength(6))
+                    .setThird(generateStringInGivenLength(8))
+                    .setForth(generateStringInGivenLength(2))
+                    .build();
 
-        JMapper<AgRecord, BgRecord> userMapper = new JMapper<>
-                (AgRecord.class, BgRecord.class,"user_jmapper.xml");
+            InitializeParametersDt initializeParametersDt = InitializeParametersDt.newBuilder()
+                    .setBlaBla(generateInt())
+                    .setBlaBlaSecond(generateInt())
+                    .setFormNumber(generateInt())
+                    .setGlobalNetworkNumber(generateInt())
+                    .setCallSign(generateStringInGivenLength(79))
+                    .setPrivateNetworkNumber(generateInt())
+                    .setReportingSystemId(generateInt())
+                    .build();
 
-        AgRecord result = userMapper.getDestination(bg);
+            BgUnion union = BgUnion.newBuilder().setFirst(bg).setSecond(initializeParametersDt).build();
 
-        System.out.println("Ag is: " + result);
+            long startMilli = System.currentTimeMillis();
+//            long startNano = System.nanoTime();
+            AgRecord agResult = converter.sourceToDestination(bg);
+            InitializeParametersDt converted = converter.initToUnion(union);
+            if (!converted.equals(initializeParametersDt)){
+                System.out.println("ERROR!!");
+                System.exit(-1);
+            }
+
+            long endMilli = System.currentTimeMillis();
+//            long endNano = System.nanoTime();
+            System.out.println("time: " + i + ", took: " + (endMilli - startMilli));
+        }
     }
 }
